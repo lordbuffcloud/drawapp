@@ -1,29 +1,14 @@
 import type { ReactNode } from "react";
 import "./globals.css";
 import { SideNav } from "./_components/SideNav";
-import Link from "next/link";
+import { TopNav } from "./_components/TopNav";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
         <div className="appShell">
-          <header className="topBar">
-            <Link className="brand" href="/">
-              drawapp
-            </Link>
-            <div className="topBarLinks">
-              <Link className="navLink" href="/generate">
-                Generate
-              </Link>
-              <Link className="navLink" href="/pro">
-                Pro
-              </Link>
-              <Link className="navLink" href="/gallery">
-                Gallery
-              </Link>
-            </div>
-          </header>
+          <TopNav />
 
           <div className="layout">
             <aside className="sidebar">

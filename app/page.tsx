@@ -1,19 +1,23 @@
+import Link from "next/link";
+
 export default function HomePage() {
   return (
-    <main style={{ padding: 24 }}>
-      <h1 style={{ marginTop: 0 }}>drawapp</h1>
-      <ul>
-        <li>
-          <a href="/generate">Generate</a>
-        </li>
-        <li>
-          <a href="/pro">Pro</a>
-        </li>
-        <li>
-          <a href="/gallery">Gallery</a>
-        </li>
-      </ul>
-    </main>
+    <section className="hero">
+      <h1>drawapp</h1>
+      <p className="heroSub">Printable step-by-step drawing tutorial posters.</p>
+
+      <div className="heroActions">
+        <Link className="btn btnPrimary" href="/generate">
+          Generate
+        </Link>
+        <Link className="btn btnSecondary" href="/gallery">
+          Gallery
+        </Link>
+        <Link className="btn btnSecondary" href="/pro">
+          Go Pro
+        </Link>
+      </div>
+    </section>
   );
 }
 

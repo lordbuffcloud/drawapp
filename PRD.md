@@ -15,11 +15,17 @@ The MVP produces a printable 7-step tutorial poster from a prompt (and optionall
 The UI is intentionally minimal: dark theme, clean forms, and a persistent left navigation.
 
 ### Layout spec
-- **Left nav**: “drawapp” brand + links to **Generate**, **Pro**, **Gallery**
+- **Persistent sidebar**: “drawapp” brand + links to **Generate**, **Pro**, **Gallery**
 - **Content**: main content area with a readable max width (avoid overly wide forms on desktop)
 - **Spacing**: consistent vertical rhythm (no clutter; group related fields)
 - **Typography**: clear hierarchy (page title, section title, labels); readable line lengths
 - **Accessibility**: keyboard navigable, visible focus states, sufficient contrast
+
+### Landing page behavior
+Home (`/`) should feel like part of the app shell (not a separate marketing page):
+- Option A: minimal hero with a single primary CTA → **Generate**
+- Option B: redirect `/` → `/generate`
+- Do **not** duplicate navigation links in the page content (no bullet list nav on home).
 
 ### Button states
 - **Disabled**: primary CTA disabled when required fields missing/invalid

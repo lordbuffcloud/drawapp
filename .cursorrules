@@ -13,6 +13,9 @@ These rules are **ground truth** for this repository. Follow them strictly.
 ## UI rules (always)
 - **Minimal dark theme**: dark background, subtle borders, restrained accent color; no marketing fluff.
 - **Left-nav layout**: persistent left navigation with “drawapp” + links to **Generate / Pro / Gallery**.
+- **No duplicate navigation content on home**: do not repeat nav links as a bullet list or secondary nav inside page content.
+- **Clear page purpose + above-the-fold CTA**: all main pages should have a clear purpose and an above-the-fold primary action when appropriate (e.g., Generate).
+- **Avoid huge dead space**: use max-width containers and a consistent vertical rhythm; avoid empty screens with scattered elements.
 - **Consistent spacing**: use a small set of spacing tokens (e.g., 8/12/16/24) and keep layouts uncluttered.
 - **Readable type scale**: clear hierarchy (page title, section title, labels, helper text).
 - **Accessible contrast**: meet WCAG AA contrast for text; visible focus states for keyboard users.

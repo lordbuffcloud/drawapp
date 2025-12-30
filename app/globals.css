@@ -54,6 +54,8 @@ a {
 
 .contentInner {
   max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .topBar {
@@ -106,6 +108,7 @@ a {
   text-decoration: none;
   color: var(--muted);
   border: 1px solid transparent;
+  font-size: 15px;
 }
 
 .navLink:hover {
@@ -118,6 +121,18 @@ a {
   color: var(--text);
   border-color: rgba(124, 196, 255, 0.25);
   background: rgba(124, 196, 255, 0.08);
+  position: relative;
+}
+
+.navLinkActive::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 999px;
+  background: rgba(124, 196, 255, 0.65);
 }
 
 input,
@@ -172,6 +187,50 @@ button.primary {
   border-color: rgba(124, 196, 255, 0.22);
 }
 
+/* Home hero */
+.hero {
+  padding: 16px 0;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.heroSub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 52ch;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid var(--border);
+}
+
+.btnPrimary {
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(124, 196, 255, 0.22), rgba(124, 196, 255, 0.08));
+  border-color: rgba(124, 196, 255, 0.22);
+}
+
+.btnSecondary {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -193,6 +252,13 @@ button:disabled {
   }
   .content {
     padding: 16px;
+  }
+  .topBarLinks .navLink {
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+  .navLinkActive::before {
+    display: none;
   }
 }
 

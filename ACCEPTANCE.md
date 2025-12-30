@@ -7,6 +7,9 @@ Use this as the definition of done. Each item should be verifiable in a running 
 - [ ] Persistent left navigation shows **“drawapp”** and links: **Generate / Pro / Gallery**.
 - [ ] Routes exist and load: `/generate`, `/pro`, `/gallery`.
 - [ ] Forms use labeled fields with consistent spacing and readable typography.
+- [ ] Home (`/`) is intentional:
+  - [ ] Either redirects to `/generate`, **or** shows a minimal hero with a single primary CTA to **Generate**
+  - [ ] No duplicate navigation list inside the home page content (no bullet list of links)
 
 ## Poster layout correctness (deterministic composition)
 - [ ] Generated poster contains **exactly 7 panels** in a consistent grid.
