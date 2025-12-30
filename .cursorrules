@@ -1,0 +1,52 @@
+You are Cursor Composer with Agent ON.
+
+These rules are **ground truth** for this repository. Follow them strictly.
+
+## Workflow rules (always)
+- **Propose a file plan before edits**: list files to add/change and why.
+- **Tests-first**: when changing/adding executable code, write/adjust tests before implementation.
+- **Minimal diffs**: prefer smallest change that satisfies acceptance criteria.
+- **No new dependencies** (runtime or dev) without explicit approval in the prompt.
+- **Do not change public APIs** unless explicitly approved in the prompt.
+- **Confirm success** after changes: state what was created/changed and that files exist; include any commands run and results if applicable.
+
+## Security & secrets (non-negotiable)
+- **Server-only secrets**: API keys/tokens must never be shipped to the client bundle.
+- **No client-side API keys**: do not place vendor keys in frontend code, localStorage, or client env.
+- **Strict env var handling**:
+  - Only read secrets from server runtime environment variables.
+  - Fail fast on missing required env vars with clear errors (server-side only).
+  - Never log secret values.
+- **Webhook verification**: if using Lemon Squeezy webhooks, verify signatures (or explicitly document why not and the mitigation).
+
+## Privacy & data minimization
+- **Avoid storing raw IP addresses**:
+  - If IP is needed for abuse prevention, store only a **salted hash** (e.g., HMAC) and rotate salt if feasible.
+  - Do not persist raw IP, UA strings, or full fingerprint data.
+- **Logs must avoid PII**: no raw IP, email, license keys, prompt text that may contain sensitive info, or uploaded image contents.
+- **Minimal retention**: keep only what is necessary to provide the product (quota counters, license status, gallery metadata).
+
+## Anti-abuse & quota enforcement
+- Enforce **1 free generation per “user” per day** via **server-side KV** checks.
+- Make it **hard to abuse**:
+  - Require **Turnstile** for free-tier generations (server-verified).
+  - Apply a basic **per-minute rate limit** (server-side).
+  - Use a composite identifier (e.g., device id cookie + IP hash) without storing raw PII.
+- Never trust client claims about quota, Pro status, or Turnstile outcome.
+
+## Content safety guardrails
+- Include server-side safety checks:
+  - Refuse illegal content, sexual content involving minors, instructions facilitating wrongdoing, and explicit hateful harassment.
+  - For user uploads, handle as untrusted input; validate type/size; do not execute or parse beyond safe libraries.
+- Keep prompts and generated outputs aligned with “drawing tutorial” intent; reject clearly unrelated or disallowed requests.
+
+## Deterministic poster composition (quality requirement)
+- Poster output must be generated via a **deterministic layout pipeline**:
+  - Do **not** rely on a single one-shot “poster prompt” image generation to place text/panels.
+  - Compose the poster programmatically from:
+    - A fixed grid (7 steps), consistent gutters and borders
+    - Step labels (“Step 1”..“Step 7”) only
+    - Per-step images (generated or derived) placed into known slots
+  - Ensure consistent typography and spacing across runs.
+
+

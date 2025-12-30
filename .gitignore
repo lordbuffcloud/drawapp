@@ -1,7 +1,14 @@
 ﻿node_modules/
 dist/
 build/
+.next/
+.vercel/
+coverage/
+playwright-report/
+test-results/
+tsconfig.tsbuildinfo
 .DS_Store
 .env
 .env.*
+.env.local
 
