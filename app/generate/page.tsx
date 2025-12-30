@@ -17,6 +17,7 @@ export default function GeneratePage() {
   const [status, setStatus] = useState<string | null>(null);
   const [result, setResult] = useState<GenerateResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [promptError, setPromptError] = useState<string | null>(null);
 
   function getClientDeviceId(): string {
     // Avoid touching localStorage during render (Next can pre-render client components).
@@ -33,8 +34,15 @@ export default function GeneratePage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setPromptError(null);
     setResult(null);
     setStatus("validating");
+
+    if (!prompt.trim()) {
+      setStatus(null);
+      setPromptError("Prompt is required.");
+      return;
+    }
 
     const fd = new FormData();
     fd.set("prompt", prompt);
@@ -58,19 +66,23 @@ export default function GeneratePage() {
   }
 
   return (
-    <main style={{ padding: 24, maxWidth: 860 }}>
-      <h1 style={{ marginTop: 0 }}>Generate</h1>
+    <div>
+      <h1>Generate</h1>
       <form onSubmit={onSubmit} style={{ display: "grid", gap: 12 }}>
         <label>
           Prompt
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            rows={3}
-            style={{ width: "100%" }}
+            rows={5}
             required
           />
         </label>
+        {promptError ? (
+          <p role="alert" style={{ margin: 0 }}>
+            {promptError}
+          </p>
+        ) : null}
 
         <label>
           Style preset
@@ -85,7 +97,7 @@ export default function GeneratePage() {
 
         <label>
           Custom style (optional)
-          <input value={customStyle} onChange={(e) => setCustomStyle(e.target.value)} style={{ width: "100%" }} />
+          <input value={customStyle} onChange={(e) => setCustomStyle(e.target.value)} />
         </label>
 
         <label>
@@ -106,8 +118,8 @@ export default function GeneratePage() {
           />
         </label>
 
-        <button type="submit" disabled={!prompt.trim()}>
-          Generate
+        <button className="primary" type="submit" disabled={!prompt.trim() || status !== null}>
+          {status ? "Working…" : "Generate"}
         </button>
       </form>
 
@@ -131,7 +143,11 @@ export default function GeneratePage() {
       {result ? (
         <section style={{ marginTop: 24 }}>
           <h2>Preview</h2>
-          <img alt="Poster preview" src={result.posterPngUrl} style={{ maxWidth: "100%", border: "1px solid #ddd" }} />
+          <img
+            alt="Poster preview"
+            src={result.posterPngUrl}
+            style={{ maxWidth: "100%", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 12 }}
+          />
           <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
             <a href={result.posterPngUrl} download data-testid="download-png">
               Download PNG
@@ -142,7 +158,7 @@ export default function GeneratePage() {
           </div>
         </section>
       ) : null}
-    </main>
+    </div>
   );
 }
 
