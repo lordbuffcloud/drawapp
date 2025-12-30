@@ -17,12 +17,29 @@ vi.mock("../../../src/lib/openaiMockable", () => ({
   })
 }));
 
+vi.mock("../../../src/lib/blobStore", () => ({
+  putPublicBlob: vi.fn(async (key: string) => {
+    return { url: `https://blob.test/${key}` };
+  })
+}));
+
+vi.mock("../../../src/lib/posterPipeline", () => ({
+  generatePosterAssets: vi.fn(async () => {
+    return {
+      posterPng: Buffer.from("png"),
+      posterPdf: Buffer.from("pdf"),
+      thumbnailPng: Buffer.from("thumb")
+    };
+  })
+}));
+
 describe("/api/generate", () => {
   beforeEach(() => {
     resetTestKv();
     process.env.HASH_SALT = "test-salt";
     process.env.TURNSTILE_BYPASS = "1";
     process.env.LEMONSQUEEZY_API_KEY = "test-key";
+    process.env.BLOB_READ_WRITE_TOKEN = "test-blob-token";
   });
 
   it("accepts pro_session cookie and does not require turnstileToken", async () => {
@@ -56,7 +73,7 @@ describe("/api/generate", () => {
     expect(json.meta?.isPro).toBe(true);
   });
 
-  it("free tier: requires turnstile, consumes quota, returns URLs, blocks second same day", async () => {
+  it("free tier: requires turnstile, consumes quota, returns blob URLs, blocks second same day", async () => {
     // Turnstile bypass is enabled in test env via env flag.
     const fd1 = new FormData();
     fd1.set("prompt", "draw a cat");
@@ -75,9 +92,11 @@ describe("/api/generate", () => {
 
     const res1 = await POST(req1);
     expect(res1.status).toBe(200);
-    const json1 = (await res1.json()) as { posterPngUrl?: string; posterPdfUrl?: string };
-    expect(json1.posterPngUrl).toMatch(/^https:\/\//);
-    expect(json1.posterPdfUrl).toMatch(/^https:\/\//);
+    const json1 = (await res1.json()) as { posterId?: string; posterPngUrl?: string; posterPdfUrl?: string; thumbnailUrl?: string };
+    expect(json1.posterId).toBeTruthy();
+    expect(json1.posterPngUrl).toMatch(/^https:\/\/blob\.test\//);
+    expect(json1.posterPdfUrl).toMatch(/^https:\/\/blob\.test\//);
+    expect(json1.thumbnailUrl).toMatch(/^https:\/\/blob\.test\//);
 
     const fd2 = new FormData();
     fd2.set("prompt", "draw a cat");
