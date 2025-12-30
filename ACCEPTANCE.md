@@ -2,6 +2,12 @@
 
 Use this as the definition of done. Each item should be verifiable in a running build.
 
+## UI & navigation (MVP direction)
+- [ ] App uses a **dark, minimal** visual style (no clutter/marketing sections).
+- [ ] Persistent left navigation shows **“drawapp”** and links: **Generate / Pro / Gallery**.
+- [ ] Routes exist and load: `/generate`, `/pro`, `/gallery`.
+- [ ] Forms use labeled fields with consistent spacing and readable typography.
+
 ## Poster layout correctness (deterministic composition)
 - [ ] Generated poster contains **exactly 7 panels** in a consistent grid.
 - [ ] Gutters/margins are **consistent** across all panels.
@@ -16,6 +22,12 @@ Use this as the definition of done. Each item should be verifiable in a running 
 - [ ] PDF supports **US Letter** size with correct dimensions and margins.
 - [ ] PDF supports **A4** size with correct dimensions and margins.
 - [ ] Print output is crisp (no unexpected scaling artifacts; borders/labels remain readable).
+
+## Generate page UX
+- [ ] Generate form includes: **prompt**, **style preset**, **custom style (optional)**, **print size**, **reference image (optional)**, and **Turnstile (free tier)**.
+- [ ] Primary CTA is clearly visible and disabled when required inputs are missing.
+- [ ] After success: poster **preview** is visible and both download actions exist: **Download PNG** and **Download PDF**.
+- [ ] Loading/progress states are shown (at minimum: validating/generating/composing/uploading).
 
 ## Free quota (1 per user per day)
 - [ ] First free generation of the day succeeds for a new/eligible user.
@@ -42,7 +54,7 @@ Use this as the definition of done. Each item should be verifiable in a running 
 - [ ] Publish creates a **public entry** with a **thumbnail**.
 - [ ] Gallery lists **recent** items (newest first).
 - [ ] Gallery supports basic **search** and/or **filter by style**.
-- [ ] Gallery item detail view loads the poster preview/downloads without leaking secrets.
+- [ ] Gallery has a browsing **grid** of thumbnails; clicking an item opens a **detail modal/page** with preview + download links without leaking secrets.
 
 ## PWA installability
 - [ ] App includes a valid web app **manifest**.

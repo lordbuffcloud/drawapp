@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getRequestIp } from "../../../src/lib/ip";
 import { hmacSha256Hex } from "../../../src/lib/hash";
 import { consumeDailyQuota } from "../../../src/lib/quota";
-import { consumeTokenBucket } from "../../../src/lib/rateLimit";
+import { consumeFixedWindow } from "../../../src/lib/rateLimit";
 import { getValidProSession } from "../../../src/lib/proSession";
 import { verifyTurnstileToken } from "../../../src/lib/turnstile";
 import { generateStepImages } from "../../../src/lib/openaiMockable";
@@ -49,10 +49,10 @@ export async function POST(req: Request) {
     const ok = await verifyTurnstileToken(turnstileToken, ip);
     if (!ok) return NextResponse.json({ error: "Turnstile verification failed." }, { status: 400 });
 
-    const rate = await consumeTokenBucket({
+    const rate = await consumeFixedWindow({
       key: ipHash,
-      capacity: 5,
-      refillPerSecond: 5 / 60
+      limit: 5,
+      windowMs: 60_000
     });
     if (!rate.ok) return NextResponse.json({ error: "Rate limited." }, { status: 429 });
 
@@ -63,10 +63,10 @@ export async function POST(req: Request) {
   // Reference image is accepted but not processed in this test-focused pass.
   await generateStepImages({ prompt, stylePreset, customStyle });
 
-  // Minimal stub response for now (E2E tests mock this endpoint anyway).
+  // Minimal-but-real response for tests (E2E tests may still mock this endpoint).
   return NextResponse.json({
-    posterPngUrl: "https://example.invalid/poster.png",
-    posterPdfUrl: "https://example.invalid/poster.pdf",
+    posterPngUrl: "https://blob.example.invalid/poster.png",
+    posterPdfUrl: "https://blob.example.invalid/poster.pdf",
     meta: { isPro }
   });
 }

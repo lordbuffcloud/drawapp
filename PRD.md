@@ -11,6 +11,27 @@ People want to learn to draw specific subjects (characters, objects, animals, lo
 ## MVP scope (must-haves)
 The MVP produces a printable 7-step tutorial poster from a prompt (and optionally a user reference image), supports downloads, has a subscription paywall, rate-limits free usage with anti-abuse, is installable as a PWA, and includes a global gallery.
 
+## UI (MVP direction)
+The UI is intentionally minimal: dark theme, clean forms, and a persistent left navigation.
+
+### Layout spec
+- **Left nav**: “drawapp” brand + links to **Generate**, **Pro**, **Gallery**
+- **Content**: main content area with a readable max width (avoid overly wide forms on desktop)
+- **Spacing**: consistent vertical rhythm (no clutter; group related fields)
+- **Typography**: clear hierarchy (page title, section title, labels); readable line lengths
+- **Accessibility**: keyboard navigable, visible focus states, sufficient contrast
+
+### Button states
+- **Disabled**: primary CTA disabled when required fields missing/invalid
+- **Loading**: show progress states (e.g., validating → generating → composing → uploading)
+- **Success**: show preview + download actions
+- **Error**: show friendly message; if quota blocked, show a clear upgrade path
+
+### Form validation behavior
+- Validate required fields inline (prompt required; print size required; style preset required)
+- Validate file uploads (type/size) with friendly errors
+- Turnstile required for free-tier generation; errors should instruct user to retry or upgrade
+
 ### a) Prompt + optional image upload → poster
 - User inputs a text prompt describing what to draw.
 - User may upload an optional reference image to guide the drawing tutorial.
@@ -63,7 +84,7 @@ The MVP produces a printable 7-step tutorial poster from a prompt (and optionall
 ## User experience flows
 
 ### Free user flow
-1. Land on create page.
+1. Land on **/generate**.
 2. Enter prompt, pick a style preset or add custom style.
 3. (Optional) Upload reference image.
 4. Complete Turnstile challenge.
@@ -145,6 +166,11 @@ Store binary assets (images/PDF) in a blob store.
 
 ## API endpoints (MVP list)
 (Names/paths are indicative; actual implementation must keep secrets server-side.)
+
+### Pages/routes (UI)
+- `GET /generate` — generation form + output preview/download actions
+- `GET /pro` — checkout link + license key unlock
+- `GET /gallery` — browse grid + search/filter + detail view
 
 ### Auth/session
 - `POST /api/pro/unlock` — validate Lemon Squeezy license key; set httpOnly Pro session cookie

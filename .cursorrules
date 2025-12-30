@@ -10,6 +10,14 @@ These rules are **ground truth** for this repository. Follow them strictly.
 - **Do not change public APIs** unless explicitly approved in the prompt.
 - **Confirm success** after changes: state what was created/changed and that files exist; include any commands run and results if applicable.
 
+## UI rules (always)
+- **Minimal dark theme**: dark background, subtle borders, restrained accent color; no marketing fluff.
+- **Left-nav layout**: persistent left navigation with “drawapp” + links to **Generate / Pro / Gallery**.
+- **Consistent spacing**: use a small set of spacing tokens (e.g., 8/12/16/24) and keep layouts uncluttered.
+- **Readable type scale**: clear hierarchy (page title, section title, labels, helper text).
+- **Accessible contrast**: meet WCAG AA contrast for text; visible focus states for keyboard users.
+- **Responsive**: works on mobile (nav collapses or stacks) and desktop (content container widths reasonable).
+
 ## Security & secrets (non-negotiable)
 - **Server-only secrets**: API keys/tokens must never be shipped to the client bundle.
 - **No client-side API keys**: do not place vendor keys in frontend code, localStorage, or client env.

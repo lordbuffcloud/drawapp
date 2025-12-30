@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { resetTestKv } from "../../../../src/lib/kv";
+import { getKv, resetTestKv } from "../../../../src/lib/kv";
 import { POST } from "./route";
 
 describe("/api/license/validate", () => {
@@ -28,6 +28,13 @@ describe("/api/license/validate", () => {
     const setCookie = res.headers.get("set-cookie");
     expect(setCookie).toMatch(/pro_session=/);
     expect(setCookie).toMatch(/HttpOnly/i);
+
+    const token = setCookie?.match(/pro_session=([^;]+)/)?.[1];
+    expect(token).toBeTruthy();
+
+    const kv = getKv();
+    const record = await kv.get(`pro:session:${token}`);
+    expect(record).toBeTruthy();
   });
 });
 
